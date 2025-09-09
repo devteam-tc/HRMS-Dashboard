@@ -1,0 +1,240 @@
+import React, { useState, useEffect } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { 
+  ChevronDown, 
+  ChevronRight, 
+  Menu, 
+  Home, 
+  Users, 
+  Clock, 
+  UserPlus, 
+  Calendar, 
+  Camera, 
+  CheckSquare, 
+  Key,
+  BarChart3,
+  UserCheck,
+  FileText,
+  Timer,
+  X,
+  ChevronLeft
+} from 'lucide-react';
+
+export function Sidebar({ collapsed, onToggle }) {
+  const location = useLocation();
+  const [expandedSections, setExpandedSections] = useState(['dashboard']);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  const navigate = useNavigate();
+
+  const toggleSection = (section) => {
+    setExpandedSections(prev => 
+      prev.includes(section) 
+        ? prev.filter(s => s !== section)
+        : [...prev, section]
+    );
+  };
+
+  // Handle window resize
+  useEffect(() => {
+    const handleResize = () => {
+      const isMobileView = window.innerWidth < 768;
+      setIsMobile(isMobileView);
+      // Auto-close sidebar on mobile when resizing to mobile view
+      if (isMobileView && !collapsed) {
+        onToggle();
+      }
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, [collapsed, onToggle]);
+
+  // Close sidebar when clicking on a link on mobile
+  const handleNavigation = () => {
+    if (isMobile) {
+      onToggle();
+    }
+  };
+
+  const menuItems = [
+    {
+      id: 'dashboard',
+      label: 'Dashboard',
+      icon: Home,
+      items: [
+        { label: 'Overview', path: '/' },
+        { label: 'Headcount Snapshot', path: '/dashboard/headcount' },
+        { label: 'Attrition Trends', path: '/dashboard/attrition' },
+        { label: 'Payroll Overview', path: '/dashboard/payroll' },
+        { label: 'Engagement Index', path: '/dashboard/engagement' },
+        { label: 'Performance Comparison', path: '/dashboard/performance' },
+        { label: 'Upcoming Meetings', path: '/dashboard/meetings' },
+        { label: 'Quick Actions', path: '/dashboard/actions' }
+      ]
+    },
+    {
+      id: 'employees',
+      label: 'Employees',
+      icon: Users,
+      items: [
+        { label: 'All Employees', path: '/employees' },
+        { label: 'Add New Employee', path: '/employees/new' },
+        { label: 'Employee Directory', path: '/employees/directory' },
+        { label: 'Org Chart', path: '/employees/org-chart' },
+        { label: 'Onboarding', path: '/employees/onboarding' },
+        { label: 'Offboarding', path: '/employees/offboarding' }
+      ]
+    },
+    {
+      id: 'attendance',
+      label: 'Attendance',
+      icon: Clock,
+      items: [
+        { label: 'Time Tracking', path: '/attendance/tracking' },
+        { label: 'Leave Management', path: '/attendance/leave' },
+        { label: 'Shift Scheduling', path: '/attendance/schedule' },
+        { label: 'Time-off Requests', path: '/attendance/requests' },
+        { label: 'Attendance Reports', path: '/attendance/reports' }
+      ]
+    },
+    {
+      id: 'recruitment',
+      label: 'Recruitment',
+      icon: UserPlus,
+      items: [
+        { label: 'Job Postings', path: '/recruitment/jobs' },
+        { label: 'Candidates', path: '/recruitment/candidates' },
+        { label: 'Interviews', path: '/recruitment/interviews' },
+        { label: 'Onboarding', path: '/recruitment/onboarding' },
+        { label: 'Offer Letters', path: '/recruitment/offers' }
+      ]
+    },
+    {
+      id: 'performance',
+      label: 'Performance',
+      icon: BarChart3,
+      items: [
+        { label: 'Reviews', path: '/performance/reviews' },
+        { label: 'Goals', path: '/performance/goals' },
+        { label: 'Feedback', path: '/performance/feedback' },
+        { label: '1:1 Meetings', path: '/performance/one-on-ones' },
+        { label: 'Skills Matrix', path: '/performance/skills' }
+      ]
+    },
+    {
+      id: 'documents',
+      label: 'Documents',
+      icon: FileText,
+      items: [
+        { label: 'Company Policies', path: '/documents/policies' },
+        { label: 'Templates', path: '/documents/templates' },
+        { label: 'Employee Files', path: '/documents/employee-files' },
+        { label: 'Compliance', path: '/documents/compliance' },
+        { label: 'Archives', path: '/documents/archives' }
+      ]
+    },
+    {
+      id: 'settings',
+      label: 'Settings',
+      icon: Key,
+      items: [
+        { label: 'User Management', path: '/settings/users' },
+        { label: 'Roles & Permissions', path: '/settings/roles' },
+        { label: 'Company Info', path: '/settings/company' },
+        { label: 'Integrations', path: '/settings/integrations' },
+        { label: 'Backup & Restore', path: '/settings/backup' }
+      ]
+    }
+  ];
+
+  const sidebarStyles = {
+    boxShadow: 'inset -8px 0 12px rgba(255, 255, 255, 0.3), inset 8px 0 12px rgba(0, 0, 0, 0.05)',
+    background: 'linear-gradient(145deg, #f0f4f7, #e6eaf0)',
+  };
+
+  return (
+    <>
+      {/* Overlay for mobile */}
+      {!collapsed && isMobile && (
+        <div 
+          className="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden"
+          onClick={onToggle}
+        />
+      )}
+      
+      <div 
+        className={`fixed left-0 top-0 h-full bg-white border-r border-gray-200 transition-all duration-300 z-50 ${
+          collapsed ? 'w-16' : 'w-64 shadow-lg'
+        } ${isMobile ? (collapsed ? '-translate-x-full' : 'translate-x-0') : ''}`}
+        style={sidebarStyles}
+      >
+        {/* Header */}
+        <div className="flex items-center justify-between h-16 px-4 border-b border-gray-200">
+          {!collapsed && (
+            <h1 className="text-xl font-bold text-gray-800 whitespace-nowrap">HRMS Dashboard</h1>
+          )}
+          <button 
+            onClick={onToggle}
+            className="p-2 rounded-md text-gray-500 hover:bg-gray-100 focus:outline-none transition-colors"
+            aria-label={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+          >
+            {collapsed ? (
+              <Menu size={20} className="text-gray-600" />
+            ) : (
+              <ChevronLeft size={20} className="text-gray-600" />
+            )}
+          </button>
+        </div>
+
+        {/* Navigation */}
+        <nav className="mt-4 px-2 overflow-y-auto h-[calc(100%-4rem)]">
+          {menuItems.map((section) => (
+            <div key={section.id} className="mb-1">
+              <button
+                onClick={() => toggleSection(section.id)}
+                className={`w-full flex items-center justify-between px-3 py-2 text-sm font-medium rounded-md transition-colors ${
+                  location.pathname === section.items[0]?.path || 
+                  (section.items.some(item => item.path !== section.items[0]?.path && 
+                    location.pathname.startsWith(item.path.split('/')[1])))
+                    ? 'bg-blue-50 text-blue-600' 
+                    : 'text-gray-700 hover:bg-gray-100'
+                }`}
+              >
+                <div className="flex items-center">
+                  <section.icon className="h-5 w-5 mr-3 flex-shrink-0" />
+                  {!collapsed && <span className="truncate">{section.label}</span>}
+                </div>
+                {!collapsed && section.items && section.items.length > 1 && (
+                  expandedSections.includes(section.id) ? 
+                    <ChevronDown size={16} className="flex-shrink-0" /> : 
+                    <ChevronRight size={16} className="flex-shrink-0" />
+                )}
+              </button>
+              
+              {!collapsed && section.items && section.items.length > 1 && expandedSections.includes(section.id) && (
+                <div className="mt-1 ml-8 space-y-1">
+                  {section.items.map((item) => (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      onClick={handleNavigation}
+                      className={`block px-3 py-2 text-sm rounded-md transition-colors ${
+                        location.pathname === item.path
+                          ? 'bg-blue-100 text-blue-700 font-medium'
+                          : 'text-gray-600 hover:bg-gray-50'
+                      }`}
+                    >
+                      {item.label}
+                    </Link>
+                  ))}
+                </div>
+              )}
+            </div>
+          ))}
+        </nav>
+      </div>
+    </>
+  );
+}
+
+export default Sidebar;
