@@ -3,13 +3,24 @@ import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Dashboard';
 import Employees from './pages/Employees';
-import Attendance from './pages/Attendance';
+import Attendance from './components/attendence/Attendance';
 import Leave from './pages/Leave';
 import Payroll from './pages/Payroll';
 import AllMeetings from './components/dashboard/meetings/Meetings';
 import NewMeeting from './components/dashboard/meetings/new-meeting';
 import MeetingConfirmation from './components/dashboard/meetings/MeetingConfirmation';
+import MeetingDetails from './components/dashboard/meetings/MeetingDetails';
+import EditMeeting from './components/dashboard/meetings/EditMeeting';
+import MeetingCalendar from './components/dashboard/meetings/MeetingCalendar';
 import Header from './components/Header';
+import ShiftManagement from './components/attendence/ShiftManagement';
+import { OvertimeHours } from './components/attendence/OvertimeHours';
+import { HolidayManagement } from './components/attendence/HolidayManagement';
+import { PunchRecords } from './components/attendence/PunchRecords';
+import { PolicyRules } from './components/attendence/PolicyRules';
+import { LeaveTracking } from './components/attendence/LeaveTracking';
+import { EmployeeAttendanceProfile } from './components/attendence/EmployeeAttendanceProfile';
+import { AttendanceCalendar } from './components/attendence/AttendanceCalendar';
 
 function MeetingsLayout({ children }) {
   const navigate = useNavigate();
@@ -22,8 +33,12 @@ function MeetingsLayout({ children }) {
       navigate('/meetings/new');
     } else if (path === 'confirmation') {
       navigate('/meetings/confirmation');
-    } else if (path === 'details' && id) {
+    } else if (path === 'meeting-details' && id) {
       navigate(`/meetings/${id}`);
+    } else if (path === 'edit-meeting' && id) {
+      navigate(`/meetings/edit/${id}`);
+    } else if (path === 'calendar' || path === 'calendar-add-meeting') {
+      navigate('/meetings/calendar');
     } else {
       console.warn(`Unknown navigation path: ${path}`);
     }
@@ -94,6 +109,14 @@ function App() {
             <Route path="/" element={<Dashboard />} />
             <Route path="/employees" element={<Employees />} />
             <Route path="/attendance" element={<Attendance />} />
+            <Route path="/attendance/shifts" element={<ShiftManagement/>} />
+            <Route path="/attendance/overtime" element={<OvertimeHours/>} />
+            <Route path="/attendance/holidays" element={<HolidayManagement/>} />
+            <Route path="/attendance/punch" element={<PunchRecords/>} />
+            <Route path="/attendance/policy" element={<PolicyRules/>} />
+            <Route path="/attendance/leave" element={<LeaveTracking/>} />
+            <Route path="/attendance/employee-profile" element={<EmployeeAttendanceProfile />}/>
+            <Route path="/attendance/calendar" element={<AttendanceCalendar/>}/>
             <Route path="/leave" element={<Leave />} />
             <Route path="/payroll" element={<Payroll />} />
             <Route path="/meetings" element={
@@ -111,7 +134,26 @@ function App() {
                 <MeetingConfirmation />
               </MeetingsLayout>
             } />
-            
+            <Route path="/meetings/:meetingId" element={
+              <MeetingsLayout>
+                <MeetingDetails />
+              </MeetingsLayout>
+            } />
+            <Route path="/meetings/edit/:meetingId" element={
+              <MeetingsLayout>
+                <EditMeeting />
+              </MeetingsLayout>
+            } />
+            <Route path="/meetings/edit/:meetingId" element={
+              <MeetingsLayout>
+                <EditMeeting />
+              </MeetingsLayout>
+            } />
+            <Route path="/meetings/calendar" element={
+              <MeetingsLayout>
+                <MeetingCalendar />
+              </MeetingsLayout>
+            } />
           </Routes>
         </main>
       </div>

@@ -14,7 +14,17 @@ import {
   Truck,
   HardHat,
   Package,
-  UserCog
+  UserCog,
+  LayoutDashboard,
+  CalendarDays,
+  Settings,
+  Clock as ClockIcon,
+  BarChart3,
+  FolderOpen,
+  Kanban,
+  Plus,
+  CheckCircle,
+  GitBranch
 } from 'lucide-react';
 
 export const menuItems = [
@@ -33,9 +43,15 @@ export const menuItems = [
     label: 'Attendance',
     icon: Clock,
     items: [
-      { label: 'Attendance Hub', path: '/attendance' },
-      { label: 'Punch IN/OUT', path: '/attendance/punch' },
-      { label: 'Shift Management', path: '/attendance/shifts' }
+      { label: 'Attendance Dashboard', icon: LayoutDashboard, path: '/attendance' },
+      { label: 'Attendance Calendar', icon: CalendarDays, path: '/attendance/calendar' },
+      { label: 'Punch In/Out Records', icon: Clock, path: '/attendance/punch' },
+      { label: 'Shift Management', icon: Settings, path: '/attendance/shifts' },
+      { label: 'Leave & Absence Tracking', icon: Calendar, path: '/attendance/leave' },
+      { label: 'Overtime & Working Hours', icon: ClockIcon, path: '/attendance/overtime' },
+      { label: 'Holiday Management', icon: CalendarDays, path: '/attendance/holidays' },
+      { label: 'Policy & Rules Setup', icon: Settings, path: '/attendance/policy' },
+      { label: 'Employee Profile', icon: Users, path: '/attendance/employee-profile' },
     ]
   },
   {
@@ -72,13 +88,22 @@ export const menuItems = [
       { label: 'Uploaded Images', path: '/vslm/uploaded-images', component: 'VSLM' }
     ]
   },
+ 
   {
     id: 'tasks',
     label: 'Tasks',
     icon: CheckSquare,
     items: [
-      { label: 'All Projects', path: '/tasks/projects' },
-      { label: 'Task Status (Kanban View)', path: '/tasks/kanban' }
+      { label: 'Task Dashboard', icon: LayoutDashboard  , path: '/tasks/dashboard' },
+      { label: 'Projects (Development)', icon: FolderOpen  , path: '/tasks/projects' },
+      { label: 'Task Status (Kanban)', icon: Kanban  , path: '/tasks/kanban' },
+      { label: 'Add New Task', icon: Plus  , path: '/tasks/add' },
+      { label: 'Task Details', icon: FileText  , path: '/tasks/details' },
+      { label: 'Subtasks', icon: CheckCircle  , path: '/tasks/subtasks' },
+      { label: 'Dependencies', icon: GitBranch  , path: '/tasks/dependencies' },
+      { label: 'Team Assignment', icon: Users  , path: '/tasks/assignment' },
+      { label: 'Timeline (Gantt)', icon: CalendarDays  , path: '/tasks/timeline' },
+      { label: 'Analytics & Reports', icon: BarChart3  , path: '/tasks/analytics' }
     ]
-  }
+  },
 ];
