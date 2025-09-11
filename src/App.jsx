@@ -1,35 +1,117 @@
-import { Routes, Route } from 'react-router-dom';
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { Routes, Route, useNavigate, useLocation } from 'react-router-dom';
 import Sidebar from './components/Sidebar';
 import Dashboard from './pages/Dashboard';
 import Employees from './pages/Employees';
 import Attendance from './pages/Attendance';
 import Leave from './pages/Leave';
 import Payroll from './pages/Payroll';
+import AllMeetings from './components/dashboard/meetings/Meetings';
+import NewMeeting from './components/dashboard/meetings/new-meeting';
+import MeetingConfirmation from './components/dashboard/meetings/MeetingConfirmation';
 import Header from './components/Header';
+
+function MeetingsLayout({ children }) {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  const handleNavigate = (path, id) => {
+    if (path === 'all') {
+      navigate('/meetings');
+    } else if (path === 'new') {
+      navigate('/meetings/new');
+    } else if (path === 'confirmation') {
+      navigate('/meetings/confirmation');
+    } else if (path === 'details' && id) {
+      navigate(`/meetings/${id}`);
+    } else {
+      console.warn(`Unknown navigation path: ${path}`);
+    }
+  };
+
+  return React.cloneElement(children, { onNavigate: handleNavigate });
+}
 
 function App() {
   const [sidebarOpen, setSidebarOpen] = useState(true);
+  const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
     setSidebarOpen(!sidebarOpen);
   };
 
+  const toggleMobileSidebar = () => {
+    setIsMobileSidebarOpen(!isMobileSidebarOpen);
+  };
+
+  // Close mobile sidebar when clicking outside
+  const handleClickOutside = (e) => {
+    if (isMobileSidebarOpen && !e.target.closest('.sidebar-container')) {
+      setIsMobileSidebarOpen(false);
+    }
+  };
+
+  // Add click outside listener
+  React.useEffect(() => {
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isMobileSidebarOpen]);
+
   return (
-    <div className="flex h-screen bg-gray-100">
-      <Sidebar 
-        collapsed={!sidebarOpen} 
-        onToggle={toggleSidebar} 
-      />
+    <div className="flex h-screen bg-gray-100 overflow-hidden">
+      {/* Mobile overlay */}
+      {isMobileSidebarOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden" />
+      )}
+      
+      {/* Sidebar - sticky */}
+      <div className={`sidebar-container fixed lg:sticky top-0 left-0 h-screen z-50 transform transition-transform duration-300 ease-in-out ${
+        isMobileSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
+      }`}>
+        <Sidebar 
+          collapsed={!sidebarOpen} 
+          onToggle={toggleSidebar} 
+        />
+      </div>
+      
+      {/* Main content area */}
       <div className="flex-1 flex flex-col overflow-hidden">
-        <Header toggleSidebar={toggleSidebar} />
-        <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-50 p-4">
+        {/* Header - sticky */}
+        <div className="sticky top-0 z-10">
+          <Header 
+            toggleSidebar={toggleSidebar} 
+            onToggleMobileSidebar={toggleMobileSidebar}
+            darkMode={false} // Add this if you're implementing dark mode
+            onToggleDarkMode={() => {}} // Add your dark mode toggle function here
+          />
+        </div>
+        
+        {/* Main content */}
+        <main className="flex-1 overflow-y-auto bg-gray-50 p-4">
           <Routes>
             <Route path="/" element={<Dashboard />} />
             <Route path="/employees" element={<Employees />} />
             <Route path="/attendance" element={<Attendance />} />
             <Route path="/leave" element={<Leave />} />
             <Route path="/payroll" element={<Payroll />} />
+            <Route path="/meetings" element={
+              <MeetingsLayout>
+                <AllMeetings />
+              </MeetingsLayout>
+            } />
+            <Route path="/meetings/new" element={
+              <MeetingsLayout>
+                <NewMeeting />
+              </MeetingsLayout>
+            } />
+            <Route path="/meetings/confirmation" element={
+              <MeetingsLayout>
+                <MeetingConfirmation />
+              </MeetingsLayout>
+            } />
+            
           </Routes>
         </main>
       </div>

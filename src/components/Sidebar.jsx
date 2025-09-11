@@ -1,128 +1,21 @@
 import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { 
-    ChevronDown, 
-    ChevronRight, 
-    Menu, 
-    Home, 
-    Users, 
-    Clock, 
-    UserPlus, 
-    Calendar, 
-    Camera, 
-    CheckSquare, 
-    Key,
-    BarChart3,
-    UserCheck,
-    FileText,
-    Timer
-} from 'lucide-react';
+import { ChevronDown, ChevronRight, Menu } from 'lucide-react';
+import { menuItems } from '../config/navigation';
 
 export function Sidebar({ collapsed, onToggle }) {
   const location = useLocation();
   const [expandedSections, setExpandedSections] = useState(['dashboard']);
 
-  const toggleSection = (section) => {
+  const toggleSection = (sectionId) => {
     setExpandedSections(prev => 
-      prev.includes(section) 
-        ? prev.filter(s => s !== section)
-        : [...prev, section]
+      prev.includes(sectionId) 
+        ? prev.filter(id => id !== sectionId)
+        : [sectionId] // Only keep the current section ID to ensure only one section is open
     );
   };
 
-  const menuItems = [
-    {
-      id: 'dashboard',
-      label: 'Dashboard',
-      icon: Home,
-      items: [
-        { label: 'Overview', path: '/' },
-        { label: 'Headcount Snapshot', path: '/dashboard/headcount' },
-        { label: 'Attrition Trends', path: '/dashboard/attrition' },
-        { label: 'Payroll Overview', path: '/dashboard/payroll' },
-        { label: 'Engagement Index', path: '/dashboard/engagement' },
-        { label: 'Performance Comparison', path: '/dashboard/performance' },
-        { label: 'Upcoming Meetings', path: '/dashboard/meetings' },
-        { label: 'Quick Actions', path: '/dashboard/actions' }
-      ]
-    },
-    {
-      id: 'employees',
-      label: 'Employees',
-      icon: Users,
-      items: [
-        { label: 'Employee List', path: '/employees' },
-        { label: 'Add New Employee', path: '/employees/add' },
-        { label: 'Onboarding Checklist', path: '/employees/onboarding' },
-        { label: 'Document Upload', path: '/employees/documents' },
-        { label: 'Offboarding Checklist', path: '/employees/offboarding' },
-        { label: 'Asset Return', path: '/employees/assets' },
-        { label: 'Exit Interview', path: '/employees/exit-interview' }
-      ]
-    },
-    {
-      id: 'attendance',
-      label: 'Attendance',
-      icon: Clock,
-      items: [
-        { label: 'Attendance Hub', path: '/attendance' },
-        { label: 'Punch In/Out', path: '/attendance/punch' },
-        { label: 'Daily Log', path: '/attendance/daily' },
-        { label: 'Monthly Report', path: '/attendance/monthly' },
-        { label: 'Shift Management', path: '/attendance/shifts' },
-        { label: 'Assign Shifts', path: '/attendance/assign-shifts' },
-        { label: 'Exceptions Report', path: '/attendance/exceptions' }
-      ]
-    },
-    {
-      id: 'recruitment',
-      label: 'Recruitment',
-      icon: UserPlus,
-      items: [
-        { label: 'Job Openings', path: '/recruitment/jobs' },
-        { label: 'Add Job Opening', path: '/recruitment/add-job' },
-        { label: 'Applicants List', path: '/recruitment/applicants' },
-        { label: 'Interview List', path: '/recruitment/interviews' },
-        { label: 'Interview Feedback', path: '/recruitment/feedback' },
-        { label: 'Calendar - Weekly', path: '/recruitment/calendar-weekly' },
-        { label: 'Calendar - Monthly', path: '/recruitment/calendar-monthly' }
-      ]
-    },
-    {
-      id: 'meetings',
-      label: 'Meetings',
-      icon: Calendar,
-      items: [
-        { label: 'All Meetings', path: '/meetings' },
-        { label: 'Add Meeting', path: '/meetings/add' },
-        { label: 'Calendar - Weekly', path: '/meetings/calendar-weekly' },
-        { label: 'Calendar - Monthly', path: '/meetings/calendar-monthly' }
-      ]
-    },
-    {
-      id: 'vslm',
-      label: 'VSLM',
-      icon: Camera,
-      items: [
-        { label: 'Project List', path: '/vslm/projects' },
-        { label: 'Upload Images', path: '/vslm/upload' },
-        { label: 'Image Gallery', path: '/vslm/gallery' },
-        { label: 'Image Tagging', path: '/vslm/tagging' }
-      ]
-    },
-    {
-      id: 'tasks',
-      label: 'Tasks',
-      icon: CheckSquare,
-      items: [
-        { label: 'Task Projects', path: '/tasks/projects' },
-        { label: 'Kanban Board', path: '/tasks/kanban' },
-        { label: 'Add Task', path: '/tasks/add' },
-        { label: 'Task Progress', path: '/tasks/progress' }
-      ]
-    },
-   
-  ];
+  // Navigation items are imported from config/navigation.js
 
   const sidebarStyles = {
     boxShadow: 'inset -8px 0 12px rgba(255, 255, 255, 0.3), inset 8px 0 12px rgba(0, 0, 0, 0.05)',
@@ -131,17 +24,31 @@ export function Sidebar({ collapsed, onToggle }) {
 
   return (
     <div 
-      className={`fixed left-0 top-0 h-full bg-white border-r border-gray-200 transition-all duration-300 z-50 ${
+      className={`h-screen bg-white border-r border-gray-200 transition-all duration-300 z-40 ${
         collapsed ? 'w-16' : 'w-64'
       }`}
-      style={sidebarStyles}
+      style={{
+        ...sidebarStyles,
+        position: 'relative',
+        top: 0,
+        left: 0,
+        alignSelf: 'flex-start',
+        height: '100vh',
+        overflowY: 'auto',
+        WebkitOverflowScrolling: 'touch',
+      }}
     >
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b border-gray-200">
         {!collapsed && (
-          <h1 className="text-xl font-semibold" style={{ color: '#05A7CC' }}>
-            HRMS
-          </h1>
+          <div className="flex items-center space-x-2">
+            <img 
+              src="/src/assets/logo.webp" 
+              alt="HRMS Logo" 
+              className="h-12 w-auto"
+            />
+
+          </div>
         )}
         <button
           onClick={onToggle}
@@ -155,7 +62,7 @@ export function Sidebar({ collapsed, onToggle }) {
       </div>
 
       {/* Navigation */}
-      <nav className="p-2 overflow-y-auto h-full">
+      <nav className="p-2 overflow-y-hidden h-full">
         {menuItems.map((section) => {
           const Icon = section.icon;
           const isExpanded = expandedSections.includes(section.id);
