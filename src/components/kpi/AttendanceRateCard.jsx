@@ -2,7 +2,7 @@ import React from 'react';
 import { Clock } from 'lucide-react';
 import './kpi.css';
 
-export const AttendanceRateCard = ({ value = 0, title = 'Attendance Rate' }) => {
+export const AttendanceRateCard = ({ value = 0, title = 'Today Attendance Rate' }) => {
   const display = typeof value === 'number' ? `${value}%` : value;
   return (
     <div className="kpiCard" style={{ ['--tone']: '#4CAF50' }}>
