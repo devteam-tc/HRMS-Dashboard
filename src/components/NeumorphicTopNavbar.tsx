@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
 import {
   Search,
   Bell,
@@ -8,18 +8,31 @@ import {
   LogOut,
   Sun,
   Moon,
-  ChevronDown
-} from 'lucide-react';
-import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from './ui/dropdown-menu';
+  ChevronDown,
+} from "lucide-react";
+import {
+  Avatar,
+  AvatarFallback,
+  AvatarImage,
+} from "../components/ui/avatar";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "../components/ui/dropdown-menu";
 
 interface NeumorphicTopNavbarProps {
   isDarkMode: boolean;
   onDarkModeToggle: () => void;
 }
 
-export const NeumorphicTopNavbar: React.FC<NeumorphicTopNavbarProps> = ({ isDarkMode, onDarkModeToggle }) => {
-  const [searchQuery, setSearchQuery] = useState('');
+export const NeumorphicTopNavbar: React.FC<NeumorphicTopNavbarProps> = ({
+  isDarkMode,
+  onDarkModeToggle,
+}) => {
+  const [searchQuery, setSearchQuery] = useState("");
 
   return (
     <header className="neu-navbar px-8 py-4">
@@ -77,7 +90,9 @@ export const NeumorphicTopNavbar: React.FC<NeumorphicTopNavbarProps> = ({ isDark
                 <div className="neu-small rounded-full p-1">
                   <Avatar className="w-8 h-8">
                     <AvatarImage src="/placeholder-avatar.jpg" alt="User" />
-                    <AvatarFallback className="bg-[#05A7CC] text-white">JD</AvatarFallback>
+                    <AvatarFallback className="bg-[#05A7CC] text-white">
+                      JD
+                    </AvatarFallback>
                   </Avatar>
                 </div>
                 <div className="hidden md:block text-left">
@@ -87,7 +102,11 @@ export const NeumorphicTopNavbar: React.FC<NeumorphicTopNavbarProps> = ({ isDark
                 <ChevronDown size={16} className="text-[#666666]" />
               </button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end" className="w-56 neu-card border-none shadow-none mt-2">
+
+            <DropdownMenuContent
+              align="end"
+              className="w-56 neu-card border-none shadow-none mt-2"
+            >
               <div className="px-3 py-2">
                 <p className="font-medium text-[#333333]">John Doe</p>
                 <p className="text-xs text-[#666666]">john.doe@company.com</p>
