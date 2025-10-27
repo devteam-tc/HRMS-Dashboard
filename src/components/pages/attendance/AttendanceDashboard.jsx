@@ -1,5 +1,5 @@
 import React from 'react';
-import { Clock, Users, TrendingUp, Calendar, UserCheck, UserX, Timer, AlertCircle, ChevronRight, BarChart3 } from 'lucide-react';
+import { Clock, Users, TrendingUp, Calendar, UserCheck, UserX, Timer, AlertCircle, ChevronRight, BarChart3,Plus } from 'lucide-react';
 
 export const AttendanceDashboard = ({ onNavigate }) => {
   const kpiData = [
@@ -64,9 +64,28 @@ export const AttendanceDashboard = ({ onNavigate }) => {
     <div className="p-8 bg-[#ECF0F3] min-h-screen">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-[#333333] mb-2">Attendance Dashboard</h1>
-        <p className="text-[#666666]">Monitor attendance patterns and manage workforce presence</p>
+        
+        
+
+             <div className="flex items-center justify-between mb-6">
+          <div>
+            <h1 className="text-4xl font-bold text-[#333333] mb-2">Attendance Dashboard</h1>
+            <p className="text-[#666666] text-lg">Monitor attendance patterns and manage workforce presence</p>
+          </div>
+          <div className="flex items-center space-x-4">
+            <button
+              onClick={() => onNavigate('onboarding')}
+              className="neu-primary px-6 py-3 rounded-2xl flex items-center space-x-2 hover:scale-105 transition-transform"
+            >
+              <Plus size={20} />
+              <span>Add Attendance</span>
+            </button>
+        
+          </div>
+        </div>
       </div>
+      
+      
 
       {/* KPI Cards Row */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">

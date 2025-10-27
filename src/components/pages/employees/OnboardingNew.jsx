@@ -16,7 +16,7 @@ export const OnboardingNew = ({ onNavigate }) => {
     {
       id: 1,
       category: 'Documentation',
-      title: 'Document Collection',
+      title: 'Attached Documents',
       description: 'Collect and verify all required documents',
       icon: FileText,
       tasks: [
