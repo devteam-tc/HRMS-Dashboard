@@ -1,0 +1,42 @@
+.kpiCard {
+  --tone: #05A7CC;
+  border-radius: 16px;
+  padding: 1.25rem;
+  background: #ecf0f3;
+  box-shadow: 8px 8px 16px #d1d9e6, -8px -8px 16px #fff;
+  transition: transform 0.15s ease, box-shadow 0.2s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  height: 100%;
+}
+
+.kpiCard:hover {
+  transform: translateY(-2px) scale(1.01);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--tone) 20%, transparent),
+              8px 8px 16px rgba(209, 217, 230, 0.7), -8px -8px 16px #ffffff;
+}
+
+.kpiHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.25rem;
+}
+
+.iconWrap {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 12px;
+  display: grid;
+  place-items: center;
+  background: var(--tone);
+  box-shadow: inset 3px 3px 6px color-mix(in oklab, #000 10%, var(--tone)),
+              inset -3px -3px 6px color-mix(in oklab, #fff 20%, var(--tone));
+}
+
+.icon { color: #fff; width: 1.25rem; height: 1.25rem; }
+
+.value { font-size: 1.875rem; font-weight: 800; color: var(--tone); }
+
+.title { font-size: 0.9rem; font-weight: 500; color: #555; }

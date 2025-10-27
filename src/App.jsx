@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import { Routes, Route } from 'react-router-dom';
 import { useState } from 'react';
 import Sidebar from './components/Sidebar';
@@ -38,3 +39,14 @@ function App() {
 }
 
 export default App;
+=======
+import { NeumorphicHRMSDashboard } from './components/NeumorphicHRMSDashboard.jsx';
+
+export default function App() {
+  return (
+    <div className="size-full">
+      <NeumorphicHRMSDashboard />
+    </div>
+  );
+}
+>>>>>>> 62716aa (first commit)
